@@ -1,5 +1,13 @@
 import { ReactEditor } from 'slate-react';
 import { Editor } from 'slate';
+// :-/ https://github.com/ianstormtaylor/slate/issues/3725
+declare module 'slate' {
+  export interface CustomTypes {
+    Element: { type: string; data: Record<string, unknown> };
+    Text: { type: string; data: Record<string, unknown> };
+    Editor: { type: string; data: Record<string, unknown> };
+  }
+}
 
 const getCurrentData = (editor: ReactEditor) => {
   const [existingNodeWithData] = Editor.nodes(editor, {
@@ -9,7 +17,7 @@ const getCurrentData = (editor: ReactEditor) => {
     },
   });
   const existingData = existingNodeWithData
-    ? (existingNodeWithData[0]?.data as { [key: string]: unknown })
+    ? existingNodeWithData[0]?.data
     : {};
 
   return existingData;

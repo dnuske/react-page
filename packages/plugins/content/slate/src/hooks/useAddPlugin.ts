@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Transforms } from 'slate';
+import { BaseElement, Transforms } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
 import { SlatePluginDefinition } from '../types/slatePluginDefinitions';
 import { getCurrentNodeWithPlugin } from './useCurrentNodeWithPlugin';
@@ -45,16 +45,15 @@ export const addPlugin = <T>(
       editor.addMark(plugin.type, data || true);
     } else {
       if (plugin.object === 'block' && plugin.replaceWithDefaultOnRemove) {
-        Transforms.setNodes(editor, { type: plugin.type, data });
+        Transforms.setNodes(editor, { type: plugin.type, data } as unknown);
       } else {
         Transforms.wrapNodes(
           editor,
           {
             type: plugin.type,
-
             children: [],
             data,
-          },
+          } as BaseElement,
           { split: true }
         );
         // workaround for inline problems in slate
@@ -79,7 +78,7 @@ export const addPlugin = <T>(
         ...existingData,
         ...data,
       },
-    });
+    } as unknown);
   }
 };
 

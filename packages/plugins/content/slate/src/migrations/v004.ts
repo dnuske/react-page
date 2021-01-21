@@ -37,7 +37,7 @@ const migrateTextNode = (oldNode: OldTextNode): Text => {
       }),
       {}
     ) ?? {}),
-  };
+  } as any;
 };
 
 const migrateElementNode = (node: OldElementNode): Element => {

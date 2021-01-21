@@ -13,7 +13,9 @@ export const getCurrentNodeDataWithPlugin = <T>(
     if (plugin.pluginType === 'component' && plugin.object === 'mark') {
       return currentNode[plugin.type] as T;
     }
-    const { data } = currentNode;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data } = currentNode as any;
     return data as T;
   } else if (plugin.getInitialData) {
     return plugin.getInitialData();

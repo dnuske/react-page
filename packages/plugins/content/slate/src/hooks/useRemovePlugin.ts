@@ -3,6 +3,12 @@ import { Transforms } from 'slate';
 import { ReactEditor, useSlate } from 'slate-react';
 import { SlatePluginDefinition } from '../types/slatePluginDefinitions';
 import getCurrentData from '../utils/getCurrentData';
+// :-/ https://github.com/ianstormtaylor/slate/issues/3725
+declare module 'slate' {
+  export interface CustomTypes {
+    Element: { type: string; data: Record<string, unknown> };
+  }
+}
 
 export const removePlugin = <T>(
   editor: ReactEditor,
@@ -22,7 +28,7 @@ export const removePlugin = <T>(
       if (plugin.replaceWithDefaultOnRemove) {
         Transforms.setNodes(editor, {
           type: null,
-        });
+        } as unknown);
       } else {
         Transforms.unwrapNodes(editor, {
           match: (elem) => elem.type === plugin.type,
@@ -47,7 +53,7 @@ export const removePlugin = <T>(
       }, {});
       Transforms.setNodes(editor, {
         data: dataWithout,
-      });
+      } as unknown);
     }
   }
 };

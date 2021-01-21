@@ -8,6 +8,12 @@ import {
 } from './pluginHooks';
 import { getTextContents } from '../utils/getTextContent';
 import propisValid from '@emotion/is-prop-valid';
+// :-/ https://github.com/ianstormtaylor/slate/issues/3725
+declare module 'slate' {
+  export interface CustomTypes {
+    Element: { type: string; data: Record<string, unknown> };
+  }
+}
 
 type Data = {
   [key: string]: unknown;
