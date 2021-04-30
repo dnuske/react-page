@@ -4,7 +4,7 @@ import type { Migration } from '../migrations/Migration';
 import type { Cell, PartialCell, PartialRow } from './node';
 import type { JsonSchema } from './jsonSchema';
 import type { ChildConstraints } from './constraints';
-import type { CellSpacing } from './options';
+
 
 export type CellPluginComponentProps<DataT = unknown> = {
   /**
@@ -191,11 +191,6 @@ export type CellPlugin<DataT = unknown, DataSerializedT = DataT> = {
    * additional style for the wrapping cell
    */
   cellStyle?: React.CSSProperties | ((data: DataT) => React.CSSProperties);
-
-  /**
-   * cell spacing setting for the internal layout (nested cells) if any
-   */
-  cellSpacing?: number | CellSpacing | ((data: DataT) => number | CellSpacing);
 
   /**
    * defines constraint about the children that can be added to this Cell.

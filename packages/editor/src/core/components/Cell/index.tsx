@@ -11,7 +11,6 @@ import {
   useLang,
   useNodeHasChildren,
   useScrollToViewEffect,
-  useCellSpacing,
   useSetDisplayReferenceNodeId,
   useIsInsertMode,
 } from '../hooks';
@@ -75,8 +74,6 @@ const Cell: React.FC<Props> = ({ nodeId, measureRef }) => {
   const isInsertMode = useIsInsertMode();
   const hasChildren = useNodeHasChildren(nodeId);
   const hasPlugin = useCellHasPlugin(nodeId);
-  const { x: cellSpacingX, y: cellSpacingY } = useCellSpacing();
-  const needVerticalPadding = !hasChildren || hasPlugin;
 
   const isDraftInLang = isDraftI18n?.[lang] ?? isDraft;
   const ref = React.useRef<HTMLDivElement>();
@@ -107,15 +104,6 @@ const Cell: React.FC<Props> = ({ nodeId, measureRef }) => {
 
   return (
     <div
-      style={
-        cellSpacingY !== 0 || cellSpacingX !== 0
-          ? {
-              padding: `${needVerticalPadding ? cellSpacingY / 2 : 0}px ${
-                cellSpacingX / 2
-              }px`,
-            }
-          : undefined
-      }
       className={classNames(gridClass(size), {
         'react-page-cell-has-inline-neighbour': hasInlineNeighbour,
         [`react-page-cell-inline-${inline || ''}`]: inline,

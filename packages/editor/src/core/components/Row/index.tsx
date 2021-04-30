@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { useMeasure } from 'react-use';
 import type { Node } from '../../types/node';
 import { isRow, Row } from '../../types/node';
-import { useCellSpacing, useNodeHoverPosition, useNodeProps } from '../hooks';
+import { useBlurAllCells, useNodeHoverPosition, useNodeProps } from '../hooks';
 import Droppable from './Droppable';
 import ResizableRowCell from './ResizableRowCell';
 
@@ -44,38 +44,18 @@ const Row: React.FC<{ nodeId: string }> = ({ nodeId }) => {
     (node) => isRow(node) && node.cells.length === 2 && node.cells[0]?.inline
   );
 
-  const { x: cellSpacingX, y: cellSpacingY } = useCellSpacing();
-
   return (
     <Droppable nodeId={nodeId}>
       <div
         ref={ref}
         className={classNames('react-page-row', {
-          'react-page-row-has-floating-children': Boolean(
-            rowHasInlineChildrenPosition
+          'react-page-row-is-hovering-this': Boolean(hoverPosition),
+          [`react-page-row-is-hovering-${hoverPosition || ''}`]: Boolean(
+            hoverPosition
           ),
         })}
-        style={{
-          position: 'relative',
-          margin: cellSpacingX !== 0 ? `0 ${-cellSpacingX / 2}px` : undefined,
-        }}
+        style={{ position: 'relative', borderColor: 'red' }}
       >
-        <div
-          style={{
-            position: 'absolute',
-            pointerEvents: 'none',
-            top: `${cellSpacingY / 2}px`,
-            left: `${cellSpacingX / 2}px`,
-            bottom: `${cellSpacingY / 2}px`,
-            right: `${cellSpacingX / 2}px`,
-          }}
-          className={classNames({
-            'react-page-row-is-hovering-this': Boolean(hoverPosition),
-            [`react-page-row-is-hovering-${hoverPosition || ''}`]: Boolean(
-              hoverPosition
-            ),
-          })}
-        />
         {childrenWithOffsets.map(({ offset, id, size, maxSize }, index) => (
           <ResizableRowCell
             key={id}
