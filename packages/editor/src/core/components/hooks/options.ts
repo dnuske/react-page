@@ -5,8 +5,6 @@ import { useSelector } from '../../reduxConnect';
 import { getLang } from '../../selector/setting';
 import type { Options } from '../../types';
 
-import { normalizeCellSpacing } from '../../utils/getCellSpacing';
-
 /**
  * @returns the store object of the current editor. Contains the redux store.
  */
